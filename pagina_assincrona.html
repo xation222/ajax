@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8">
+
+		<title>Página Assíncrona</title>
+		
+		<!-- bootstrap - link cdn -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		
+		<script>
+
+			// acionado no botão e cada botão tem seu url destino que será usado no request
+			function requisitarPagina(url) {
+
+			//criando imagem de carregamento e definindo propriedades
+			if(!document.getElementById('loading')) {
+			document.getElementById('conteudo').innerHTML = ''
+			let imgLoading = document.createElement('img')
+			imgLoading.id = 'loading'
+			imgLoading.src = 'loading.gif'
+			imgLoading.className = 'rounded mx-auto d-block'
+
+			// onde no html o gif ficará
+			document.getElementById('conteudo').appendChild(imgLoading)
+
+			}
+
+			// criando objeto que fará as requisições assíncronas
+			let ajax = new XMLHttpRequest();
+
+			//monitorando os States
+			console.log(ajax.readyState);
+			// preparando requisição, método e endereço
+			ajax.open('GET', url);
+			console.log(ajax.readyState);
+
+			//executando ação com base em monitoramento de mudanças de estados que acontecem no servidor
+			ajax.onreadystatechange = () => {
+				console.log(ajax.readyState)
+				// state 4 significa que a conexão conseguiu uma resposta bem sucedida, mas não necessariamente é o que se esperava
+				if(ajax.readyState == 4) {
+					console.log('Requisição concluída com sucesso')
+					// Ação que será executada após 1 segundo usado apenas para testes
+					setTimeout(() => {
+					document.getElementById('loading').remove()
+					
+					let conteudoTexto = ajax.responseText;
+
+					// onde no html o gif ficará
+					document.getElementById('conteudo').innerHTML = conteudoTexto
+
+					}, 1000); // Tempo em milissegundos (1000 ms = 1 segundo)
+
+				}
+			}
+
+			// enviando
+			ajax.send()
+
+			}
+
+		</script>
+	</head>
+
+	<body>
+
+		<!-- Static navbar -->
+	    <nav class="navbar navbar-light bg-light mb-4">
+	      <div class="container">
+	        <div class="navbar-brand mb-0 h1">
+	        	<h3>Requisições síncronas e assíncronas</h3>
+	        </div>
+	      </div>
+	    </nav>
+
+
+	    <div class="container">
+
+	    	<div class="row mb-2">
+	    		<div class="col-md-4 center"></div>
+	    		<div class="col-md-4 center">
+	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_1_conteudo.html')">Página 1</a>
+	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_2_conteudo.html')">Página 2</a>
+	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_3_conteudo.html')">Página 3</a>
+	    		</div>
+	    		<div class="col-md-4 center"></div>
+	    	</div>
+	    	
+	    	<div class="row">
+		    	<div class="col-md-1"></div>
+
+		    	<div class="col-md-10" id="conteudo">
+
+		    	</div>
+		    		
+				<div class="col-md-1"></div>
+			</div>
+
+		</div>	
+	</body>
+</html>
