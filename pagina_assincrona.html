@@ -41,6 +41,8 @@
 				// state 4 significa que a conexão conseguiu uma resposta bem sucedida, mas não necessariamente é o que se esperava
 				if(ajax.readyState == 4) {
 					console.log('Requisição concluída com sucesso')
+					console.log('O estatuo da requisição é: ', ajax.status);
+					
 					// Ação que será executada após 1 segundo usado apenas para testes
 					setTimeout(() => {
 					document.getElementById('loading').remove()
