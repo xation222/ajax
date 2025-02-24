@@ -47,10 +47,17 @@
 					setTimeout(() => {
 					document.getElementById('loading').remove()
 					
-					let conteudoTexto = ajax.responseText;
+					// verificando o status da resposta, se 200 é sucesso, 404 nao encontrado, veja outros no google
+					if (ajax.status == 200) {
+						let conteudoTexto = ajax.responseText;
+						// onde no html o gif ficará
+						document.getElementById('conteudo').innerHTML = conteudoTexto
+					} else {
+						let conteudoTexto = "ERRO! Algo deu errado ao solicitar este conteúdo.";
+						// onde no html o gif ficará
+						document.getElementById('conteudo').innerHTML = conteudoTexto
+					}
 
-					// onde no html o gif ficará
-					document.getElementById('conteudo').innerHTML = conteudoTexto
 
 					}, 1000); // Tempo em milissegundos (1000 ms = 1 segundo)
 
@@ -71,7 +78,7 @@
 	    <nav class="navbar navbar-light bg-light mb-4">
 	      <div class="container">
 	        <div class="navbar-brand mb-0 h1">
-	        	<h3>Requisições síncronas e assíncronas</h3>
+	        	<h3>Requisições assíncronas</h3>
 	        </div>
 	      </div>
 	    </nav>
@@ -84,7 +91,7 @@
 	    		<div class="col-md-4 center">
 	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_1_conteudo.html')">Página 1</a>
 	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_2_conteudo.html')">Página 2</a>
-	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_3_conteudo.html')">Página 3</a>
+	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_30_conteudo.html')">Página 3(erro)</a>
 	    		</div>
 	    		<div class="col-md-4 center"></div>
 	    	</div>
