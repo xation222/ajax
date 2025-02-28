@@ -1,0 +1,78 @@
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<title>App Pesquisa Endereço</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<script>
+			function digitandoCEP() {
+				// variavel para captar input
+				let textoCEP = document.getElementById('cep')
+				// variaveis para mudar valor dos dados
+				let caixaEndereco = document.getElementById('endereco')
+				let caixaBairro = document.getElementById('bairro')
+				let caixaCidade = document.getElementById('cidade')
+				let caixaUF = document.getElementById('uf')
+
+				// verificando se tem 8 digitos e apenas números
+				if (textoCEP.value.length === 8 && Number(textoCEP.value)) {
+					let conection = new XMLHttpRequest();
+					let cep = textoCEP.value
+					let endereco = 'https://viacep.com.br/ws/' + cep + '/json'
+
+					conection.open('GET', endereco)
+
+					conection.onreadystatechange = () => {
+						if(conection.readyState == 4 && conection.status == 200) {
+							objResponse = JSON.parse(conection.responseText) 
+
+							caixaEndereco.value = objResponse.logradouro
+							caixaBairro.value = objResponse.bairro
+							caixaCidade.value = objResponse.localidade
+							caixaUF.value = objResponse.uf
+						}
+					}
+					conection.send()
+				} else { // resetando valores
+					caixaEndereco.value = 'Endereço'
+					caixaBairro.value = 'Bairro'
+					caixaCidade.value = 'Cidade'
+					caixaUF.value = 'UF'
+				}
+			}
+		</script>
+	</head>
+	<body>
+		
+		<nav class="navbar navbar-light bg-light mb-4">
+			<div class="container">
+				<div class="navbar-brand mb-0 h1">
+					<h3>App Pesquisa Endereço</h3>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+			<div class="row form-group">
+				<div class="col-sm-3">
+					<input type="text" class="form-control" placeholder="CEP" onkeyup="digitandoCEP()" id="cep" maxlength="8"/>
+				</div>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" placeholder="Endereço" readonly id="endereco"/>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col-sm-6">
+					<input type="text" class="form-control" placeholder="Bairro" readonly id="bairro"/>
+				</div>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" placeholder="Cidade" readonly id="cidade"/>
+				</div>
+
+				<div class="col-sm-2">
+					<input type="text" class="form-control" placeholder="UF" readonly id="uf"/>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
